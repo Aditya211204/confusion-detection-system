@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Confusion Detection - Learning Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- YouTube IFrame Player API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎓 AI-Powered Learning Assistant</h1>
+            <p class="subtitle">Intelligent confusion detection for better learning</p>
+            <div class="status-indicator">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Initializing...</span>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Video Player Section -->
+            <div class="video-section">
+                <div class="video-container">
+                    <iframe id="learningVideo" width="100%" height="100%"
+                        src="https://www.youtube.com/embed/pQKwHWaa3XA?enablejsapi=1" frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <!-- Video Controls Info -->
+                <div class="video-info">
+                    <h3>Learning Video</h3>
+                    <p>Educational content for confusion detection demo</p>
+                </div>
+            </div>
+
+            <!-- Webcam Preview Section -->
+            <div class="webcam-section">
+                <div class="webcam-container">
+                    <video id="webcamFeed" autoplay playsinline></video>
+                    <div class="webcam-overlay">
+                        <span class="webcam-icon">📷</span>
+                        <p>Emotion Detection Active</p>
+                    </div>
+                </div>
+
+                <!-- Confusion Score Display -->
+                <div class="score-display">
+                    <h4>Confusion Level</h4>
+                    <div class="score-bar">
+                        <div class="score-fill" id="scoreFill"></div>
+                    </div>
+                    <p class="score-text" id="scoreText">0%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intervention Popup (Hidden by default) -->
+        <div class="intervention-popup" id="interventionPopup">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <span class="popup-icon" id="popupIcon">💡</span>
+                    <h2 id="popupTitle">Need Help?</h2>
+                    <button class="close-btn" id="closePopup">&times;</button>
+                </div>
+
+                <div class="popup-body">
+                    <p id="popupMessage">It looks like you might be confused. Would you like some help?</p>
+
+                    <div class="popup-actions">
+                        <button class="btn btn-primary" id="helpfulBtn">
+                            <span>✅</span> Yes, This Helps
+                        </button>
+                        <button class="btn btn-secondary" id="dismissBtn">
+                            <span>❌</span> No Thanks
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Explanation Section -->
+                <div class="explanation-section" id="explanationSection">
+                    <h4>Why did we detect confusion?</h4>
+                    <p id="explanationText">Based on your facial expressions and interaction patterns.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debug Panel (for development) -->
+        <div class="debug-panel" id="debugPanel">
+            <h4>🔍 Debug Info</h4>
+            <div class="debug-item">
+                <span>Emotion Score:</span>
+                <span id="debugEmotion">0.00</span>
+            </div>
+            <div class="debug-item">
+                <span>Behavior Score:</span>
+                <span id="debugBehavior">0.00</span>
+            </div>
+            <div class="debug-item">
+                <span>Video Score:</span>
+                <span id="debugVideo">0.00</span>
+            </div>
+            <div class="debug-item">
+                <span>Interventions:</span>
+                <span id="debugInterventions">0</span>
+            </div>
+        </div>
+
+        <!-- Google Form Quiz Section (Hidden by Default) -->
+        <div id="quiz-section" class="container mt-5" style="display: none;">
+            <div class="text-center mb-4">
+                <h2 class="display-6"><i class="fas fa-edit text-primary me-2"></i>Knowledge Check</h2>
+                <p class="lead">Please complete this quiz to check your understanding.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div id="google-form-container" class="shadow-sm rounded border border-secondary" style="height: 800px; width: 100%; overflow: hidden;">
+                        <iframe id="googleFormIframe" src="" width="100%" height="100%" frameborder="0"
+                            marginheight="0" marginwidth="0" style="border: none; background: white;">Loading…</iframe>
+                    </div>
+
+                    <!-- Manual Score Input to "Sync" results -->
+                    <div class="mt-5 p-5 border-0 rounded-lg shadow-lg" style="background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1) !important;">
+                        <h3 class="mb-5 d-flex align-items-center" style="font-size: 2.2rem; color: var(--primary-color); font-weight: 800;">
+                            <span class="me-3">📊</span> Final Performance Sync
+                        </h3>
+                        
+                        <div class="mb-5">
+                            <div class="row align-items-center mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label text-muted mb-0" style="font-size: 1.2rem; font-weight: 700; text-transform: uppercase;">Total Questions</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" id="totalQuestionsInput" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="0" style="font-size: 2rem; height: 80px; border-radius: 12px; border-width: 2px;">
+                                </div>
+                            </div>
+                            
+                            <div style="height: 20px;"></div> <!-- Extra vertical space -->
+
+                            <div class="row align-items-center mb-5">
+                                <div class="col-md-4">
+                                    <label class="form-label text-muted mb-0" style="font-size: 1.2rem; font-weight: 700; text-transform: uppercase;">Correct Answers</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="number" id="correctAnswersInput" class="form-control form-control-lg bg-dark text-white border-secondary" placeholder="0" style="font-size: 2rem; height: 80px; border-radius: 12px; border-width: 2px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="height: 30px;"></div> <!-- Extra space before button -->
+
+                        <button class="btn btn-primary btn-lg w-100 py-4 shadow-lg mb-5" id="syncScoreBtn" style="font-size: 1.8rem; font-weight: 800; border-radius: 15px; text-transform: uppercase; letter-spacing: 1px;">
+                            Calculate Final Confusion Index
+                        </button>
+
+                        <div id="finalResultContainer" class="mt-5 p-5 rounded-lg text-center" style="display: none; background: rgba(0,0,0,0.3); border: 2px solid var(--primary-color); border-radius: 20px;">
+                            <h4 class="text-muted fw-bold mb-3" style="letter-spacing: 3px; font-size: 1.2rem;">FINAL OVERALL CONFUSION</h4>
+                            <div class="display-1 fw-bold text-primary mb-4" id="finalConfusionValue" style="font-size: 6rem; text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);">0%</div>
+                            <div class="progress" style="height: 25px; background: rgba(255,255,255,0.05); border-radius: 20px;">
+                                <div id="finalScoreFill" class="progress-bar bg-primary progress-bar-striped progress-bar-animated" style="width: 0%; border-radius: 20px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api_client.js"></script>
+    <script src="js/webcam.js"></script>
+    <script src="js/behavioral_tracker.js"></script>
+    <script src="js/intervention.js"></script>
+
+
+
+    <!-- Main Application Script -->
+    <script>
+        // CONFIGURATION: Replace this with your actual Google Form URL
+        // Make sure to use the "Send" -> "Embed" link (e.g., https://docs.google.com/forms/d/e/.../viewform?embedded=true)
+        const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdFk8HOknjijHeP2JytAP-QqKcJcD4vyzwXKEVkYNKgaqgTew/viewform?usp=publish-editor";
+
+        // Initialize application when page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Initializing AI Confusion Detection System...');
+
+            // Set up Google Form Source
+            const formIframe = document.getElementById('googleFormIframe');
+            if (formIframe) formIframe.src = GOOGLE_FORM_URL;
+
+            // Update status
+            updateStatus('active', 'System Active');
+
+            // Initialize webcam
+            await initializeWebcam();
+
+            // Initialize behavioral tracking
+            initializeBehavioralTracking();
+
+            // Initialize intervention system
+            initializeInterventionSystem();
+
+            console.log('✅ System initialized successfully');
+        });
+
+        // Update status indicator
+        function updateStatus(status, text) {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            statusDot.className = `status-dot ${status}`;
+            statusText.textContent = text;
+        }
+
+        // Global variable to store video confusion at the moment it ends
+        let finalVideoConfusion = 0;
+
+        // Sync Quiz Score Logic
+        document.getElementById('syncScoreBtn').addEventListener('click', () => {
+            const totalInput = document.getElementById('totalQuestionsInput');
+            const correctInput = document.getElementById('correctAnswersInput');
+            
+            const total = parseInt(totalInput.value);
+            const correct = parseInt(correctInput.value);
+
+            if (isNaN(total) || isNaN(correct) || total <= 0 || correct < 0 || correct > total) {
+                alert('Please enter valid numbers. Correct answers cannot exceed total questions.');
+                return;
+            }
+
+            // Calculate quiz score as percentage (0.0 to 1.0)
+            const quizAccuracyFactor = correct / total;
+            const quizConfusionFactor = 1.0 - quizAccuracyFactor;
+            
+            console.log(`📊 Quiz Result: ${correct}/${total} (${(quizAccuracyFactor * 100).toFixed(1)}%)`);
+            console.log(`🎥 Video Phase Confusion: ${(finalVideoConfusion * 100).toFixed(1)}%`);
+            
+            // NEW FORMULA: Simple Average of Video Confusion and Quiz Confusion
+            // If video was 50% and quiz was 0% (perfect score), final = (0.5 + 0.0) / 2 = 25%
+            const finalOverallConfusion = (finalVideoConfusion + quizConfusionFactor) / 2;
+            
+            // Show result
+            const resultContainer = document.getElementById('finalResultContainer');
+            const finalValue = document.getElementById('finalConfusionValue');
+            const finalFill = document.getElementById('finalScoreFill');
+            
+            const finalPercentage = Math.round(finalOverallConfusion * 100);
+            
+            resultContainer.style.display = 'block';
+            finalValue.textContent = `${finalPercentage}%`;
+            finalFill.style.width = `${finalPercentage}%`;
+            
+            // Update color based on severity
+            if (finalPercentage < 30) finalValue.className = "display-3 fw-bold text-success mb-2";
+            else if (finalPercentage < 70) finalValue.className = "display-3 fw-bold text-warning mb-2";
+            else finalValue.className = "display-3 fw-bold text-danger mb-2";
+
+            alert(`Analysis complete! Final confusion index: ${finalPercentage}%`);
+            
+            // Scroll to results
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        const video = document.getElementById('learningVideo');
+
+
+    </script>
+</body>
+
+</html>

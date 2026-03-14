@@ -1,0 +1,1 @@
+timestamp,emotion_score,behavior_score,video_score,raw_confusion_score,smoothed_confusion_score,intervention_triggered,primary_factor,session_id
