@@ -31,7 +31,7 @@ def create_app():
     Returns:
         Flask: Configured Flask app
     """
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../frontend', static_url_path='')
     
     # Enable CORS for frontend communication
     CORS(app, resources={r"/api/*": {"origins": SERVER_CONFIG['cors_origins']}})
@@ -44,19 +44,8 @@ def create_app():
     # Root endpoint
     @app.route('/')
     def index():
-        """Root endpoint with API information"""
-        return jsonify({
-            'success': True,
-            'message': 'AI-Based Silent Confusion Detection System API',
-            'version': '1.0.0',
-            'endpoints': {
-                'emotion_detection': '/api/emotion/detect',
-                'behavior_tracking': '/api/behavior/track',
-                'intervention_check': '/api/intervention/check',
-                'feedback_submission': '/api/intervention/feedback',
-                'statistics': '/api/intervention/stats'
-            }
-        })
+        """Serve the frontend application"""
+        return app.send_static_file('index.html')
     
     # Health check endpoint
     @app.route('/health')

@@ -19,6 +19,8 @@ An intelligent AI-powered learning assistant that detects **silent confusion** i
 - 💡 **Adaptive Interventions**: Smart recommendations that learn from user feedback
 - 📊 **Explainable AI**: Clear explanations for why confusion was detected
 - 📈 **Session Logging**: Comprehensive data logging for analysis
+- ⚡ **B.Tech Viva Demo Mode**: Automated struggle simulation (hotkey `D`) to demonstrate multimodal fusion, facial heuristics, cursor hesitation, and the intervention trigger.
+- 🔄 **Final Performance Sync**: Input-driven UI panel to sync quiz results with real-time tracking data and calculate a final Synchronized Confusion Index.
 
 ## 🏗️ System Architecture
 
@@ -78,7 +80,8 @@ confusion-detection-system/
 │       ├── webcam.js             # Webcam capture
 │       ├── behavioral_tracker.js # Behavior tracking
 │       ├── intervention.js       # Popup logic
-│       └── api_client.js         # Backend communication
+│       ├── api_client.js         # Backend communication
+│       └── demo.js               # Viva demo struggle simulation
 ├── tests/
 │   ├── test_emotion.py           # Emotion tests
 │   ├── test_behavior.py          # Behavioral tests
@@ -153,6 +156,20 @@ confusion-detection-system/
    - Bottom-right panel shows real-time scores
    - Monitor emotion, behavior, and video scores
    - Track intervention count
+
+## ⚡ B.Tech Viva Demo & Simulation
+
+To easily demonstrate the system's multimodal fusion capabilities without manual setup:
+1. Open the application at `http://127.0.0.1:5000` (ensure the backend Flask server is running).
+2. Press the **`D`** key on your keyboard (when not focused on any inputs).
+3. The system will start an automated sequence:
+   - **Step 1 (1s - 3.5s)**: Surges facial emotion confusion (detecting frustration).
+   - **Step 2 (4.5s - 7s)**: Surges behavioral score (hesitation & key deletions).
+   - **Step 3 (8s - 10.5s)**: Surges video telemetry score (multiple pauses/rewinds).
+   - **Step 4 (11.5s)**: Triggers the Glassmorphic Intervention Modal.
+   - **Step 5 (15s)**: Automatically accepts the recommendation and redirects to the Knowledge Check.
+   - **Step 6 (17.5s)**: Autofills the Quiz results.
+   - **Step 7 (19.5s)**: Clicks the calculation button to display the final Synchronized Confusion Index.
 
 ## 🧪 Testing
 
@@ -253,6 +270,8 @@ This project supports the following B.Tech report chapters:
 
 ## 🔮 Future Enhancements
 
+- [x] B.Tech Viva Demo Mode & Hotkey Simulation
+- [x] Final Performance Sync & Quiz Integration
 - [ ] LLM integration for dynamic explanations
 - [ ] Multi-user support with authentication
 - [ ] Advanced analytics dashboard

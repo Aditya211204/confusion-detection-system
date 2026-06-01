@@ -72,6 +72,12 @@ window.onYouTubeIframeAPIReady = function () {
     });
 };
 
+// Fallback: If YT API is already loaded before this script runs, trigger initialization manually
+if (window.YT && window.YT.Player) {
+    console.log('📺 YT API already loaded, manually triggering ready event.');
+    window.onYouTubeIframeAPIReady();
+}
+
 function onPlayerReady(event) {
     console.log('📺 YouTube Player Initialized');
     // Start tracking video position
